@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>The Voice of SCAN | Official Voting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+
+        /* TV-Show Dark Theme with Neon Accents */
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
+            color: #f0f3fa;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101520;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff3366;
+            border-radius: 10px;
+            box-shadow: inset 0 0 4px #ff99bb;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header / Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #FFD966, #FF3366, #AA2EED);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px rgba(255,51,102,0.4);
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #cccbe6;
+            margin-bottom: 1.5rem;
+        }
+
+        .glow-btn {
+            background: linear-gradient(90deg, #ff3366, #ff7b4a);
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 12px #ff3366, 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .glow-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 22px #ff5e8e, 0 6px 20px black;
+        }
+
+        /* contestants grid */
+        .contestants-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            border-left: 6px solid #ff3366;
+            padding-left: 20px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Contestant Card */
+        .card {
+            background: rgba(15, 20, 32, 0.75);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ff6699;
+            box-shadow: 0 30px 40px -12px #ff336640;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.02);
+        }
+
+        .card h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 1rem 0 0.25rem;
+            background: linear-gradient(120deg, #fff, #ffb7c5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .description {
+            font-size: 0.85rem;
+            color: #b9c3e6;
+            padding: 0 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .vote-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0 1.2rem;
+            margin: 1rem 0;
+            background: #0b0f1a80;
+            border-radius: 40px;
+        }
+
+        .vote-count {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffdf7e;
+            text-shadow: 0 0 4px #ff884d;
+        }
+
+        .votes-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .vote-btn {
+            background: linear-gradient(145deg, #1f2a3e, #0e121f);
+            border: 1px solid #ff6699;
+            color: #ffddee;
+            padding: 10px 18px;
+            font-weight: bold;
+            border-radius: 60px;
+            width: 80%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            margin-top: 6px;
+        }
+
+        .vote-btn:hover {
+            background: #ff3366;
+            color: white;
+            box-shadow: 0 0 16px #ff6699;
+            border-color: #ff99bb;
+            transform: scale(0.98);
+        }
+
+        .vote-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* message panel */
+        .message-area {
+            background: #0e1422cc;
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 12px 20px;
+            text-align: center;
+            margin: 30px 0 20px;
+            font-weight: 500;
+            border-left: 4px solid #ffcc44;
+        }
+
+        /* Countdown + QR section extra style */
+        .extra-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 36px;
+            padding: 1.5rem;
+        }
+
+        .countdown-box {
+            flex: 2;
+            background: #0b1020b3;
+            border-radius: 32px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ff4477;
+        }
+
+        .qr-box {
+            flex: 1;
+            text-align: center;
+            background: #0b1020b3;
+            border-radius: 32px;
+            padding: 0.8rem;
+            border: 1px dashed #ffaa66;
+        }
+
+        .qr-placeholder {
+            background: #ffffff20;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 2rem;
+        }
+
+        .timer {
+            font-family: monospace;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            font-weight: bold;
+            color: #ffcc88;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #7982a0;
+        }
+
+        @media (max-width: 720px) {
+            .hero h1 { font-size: 2.2rem; }
+            .cards-grid { gap: 1.2rem; }
+            .extra-features { flex-direction: column; }
+            .timer { font-size: 1.4rem; }
+        }
+        button {
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Home / Hero Section -->
+    <div class="hero">
+        <h1>🎤 THE VOICE OF SCAN</h1>
+        <div class="tagline">✨ Where Legends Rise · Your Vote Defines The Voice ✨</div>
+        <button class="glow-btn" id="voteNowCta">🎙️ VOTE NOW 🎙️</button>
+    </div>
+
+    <!-- Contestants Section -->
+    <div class="contestants-section" id="contestantsSection">
+        <div class="section-title">🌟 FINALISTS 2026 🌟</div>
+        <div class="cards-grid" id="contestantsGrid"></div>
+    </div>
+
+    <!-- Voting confirmation message area -->
+    <div class="message-area" id="globalMessage">
+        💡 Click on any VOTE button to support your favorite artist!
+    </div>
+
+    <!-- Extra: Countdown Timer + QR Code static placeholder -->
+    <div class="extra-features">
+        <div class="countdown-box">
+            <div style="font-weight:bold; margin-bottom: 8px;">⏳ VOTING CLOSES IN</div>
+            <div class="timer" id="countdownTimer">--d --h --m --s</div>
+            <div style="font-size:12px; margin-top:8px;">Final results live on stage!</div>
+        </div>
+        <div class="qr-box">
+            <div style="font-weight:500; margin-bottom:6px;">📱 SCAN & SHARE</div>
+            <div class="qr-placeholder">
+                🎤📲
+            </div>
+            <div style="font-size:12px;">Official Voting Portal<br>#VoiceOfSCAN</div>
+        </div>
+    </div>
+    <footer>
+        🎧 One vote per viewer · Powered by The Voice of SCAN · Every vote counts!
+    </footer>
+</div>
+
+<script>
+    // ------------------------------
+    // Contestants Data (Name, Photo placeholder, description)
+    // ------------------------------
+    const contestantsData = [
+        {
+            id: 0,
+            name: "Aria Chen",
+            description: "Soulful pop / 'Rise Like Water'",
+            photo: "https://placecats.com/300/260?random=1",   // cat placeholder artist style, but looks like artistic photo? actually we use unsplash-like but to avoid external? Placekitten but colorful?
+            // Actually we'll use high-quality placeholder images that look like stage portraits using modern UI picsum? Use picsum with music theme.
+        },
+        {
+            id: 1,
+            name: "Jaxon Rivers",
+            description: "Rock & blues powerhouse",
+            photo: "https://picsum.photos/id/169/300/260",   // nice guitar vibe
+        },
+        {
+            id: 2,
+            name: "Lina Melody",
+            description: "R&B / Jazz fusion",
+            photo: "https://picsum.photos/id/64/300/260",
+        },
+        {
+            id: 3,
+            name: "Diego Flame",
+            description: "Latin pop sensation",
+            photo: "https://picsum.photos/id/91/300/260",
+        },
+        {
+            id: 4,
+            name: "Zara Skye",
+            description: "Indie / folk ethereal",
+            photo: "https://picsum.photos/id/20/300/260",
+        }
+    ];
+
+    // Adjust photo to make first one more distinctive but all good & responsive, also use unsplash high-quality
+    // we use picsum with variety, add alt
+    // but first contestant: we need better image style: using picsum as well but modern.
+    contestantsData[0].photo = "https://picsum.photos/id/29/300/260";  // beautiful stage portrait
+    contestantsData[1].photo = "https://picsum.photos/id/145/300/260";
+    contestantsData[2].photo = "https://picsum.photos/id/30/300/260";
+    contestantsData[3].photo = "https://picsum.photos/id/119/300/260";
+    contestantsData[4].photo = "https://picsum.photos/id/96/300/260";
+    
+    // local storage key for votes & hasVoted flag
+    const STORAGE_VOTES_KEY = "voiceOfScan_votes";
+    const STORAGE_VOTED_FLAG = "voiceOfScan_hasVoted";
+
+    // Helper: get stored votes (object) with default zeros
+    function getStoredVotes() {
+        const stored = localStorage.getItem(STORAGE_VOTES_KEY);
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch(e) { console.warn(e); }
+        }
+        // default initialize votes zero for each contestant id
+        const defaultVotes = {};
+        contestantsData.forEach(c => { defaultVotes[c.id] = 0; });
+        return defaultVotes;
+    }
+
+    // Helper: check if user already voted globally
+    function hasUserVoted() {
+        return localStorage.getItem(STORAGE_VOTED_FLAG) === "true";
+    }
+
+    // Save votes to localStorage
+    function persistVotes(votesObj) {
+        localStorage.setItem(STORAGE_VOTES_KEY, JSON.stringify(votesObj));
+    }
+
+    // Mark user as voted (once overall)
+    function markUserVoted() {
+        localStorage.setItem(STORAGE_VOTED_FLAG, "true");
+    }
+
+    // core votes state (live in memory)
+    let currentVotes = getStoredVotes();
+
+    // UI references
+    let contestantsGrid = document.getElementById("contestantsGrid");
+    let globalMsgDiv = document.getElementById("globalMessage");
+
+    // audio context for sound effect (simple beep using Web Audio API - no external lib)
+    let audioCtx = null;
+    function playVoteSound() {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.value = 880; // A5 note
+            gainNode.gain.value = 0.2;
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
+            oscillator.stop(audioCtx.currentTime + 0.4);
+            // resume if suspended
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        } catch(e) { console.log("audio not supported", e); }
+    }
+
+    // Confetti effect (simple canvas based)
+    function triggerConfetti() {
+        const canvas = document.createElement("canvas");
+        canvas.style.position = "fixed";
+        canvas.style.top = "0";
+        canvas.style.left = "0";
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.pointerEvents = "none";
+        canvas.style.zIndex = "9999";
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        const colors = ["#ff3366", "#ffcc44", "#66ffcc", "#aa55ff", "#ffaa88"];
+        for (let i = 0; i < 130; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 6 + 2,
+                speedY: Math.random() * 8 + 4,
+                speedX: (Math.random() - 0.5) * 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rotation: Math.random() * 360,
+            });
+        }
+        let animationId;
+        let startTime = performance.now();
+        function drawConfetti(now) {
+            if (now - startTime > 2500) {
+                cancelAnimationFrame(animationId);
+                canvas.remove();
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let p of particles) {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 6;
+                ctx.fillRect(p.x, p.y, p.size, p.size * 0.6);
+                if (p.y > canvas.height + 50) p.y = -20;
+                if (p.x > canvas.width + 30) p.x = -30;
+                if (p.x < -30) p.x = canvas.width + 20;
+            }
+            animationId = requestAnimationFrame((t) => drawConfetti(t));
+        }
+        animationId = requestAnimationFrame(drawConfetti);
+    }
+
+    // Show message with automatic fade? We'll update dynamic message
+    function setMessage(text, isError = false) {
+        globalMsgDiv.innerHTML = isError ? `⚠️ ${text}` : `🎉 ${text}`;
+        globalMsgDiv.style.borderLeftColor = isError ? "#ff8866" : "#88ffaa";
+        setTimeout(() => {
+            if (globalMsgDiv.innerHTML.includes(text)) {
+                // but we don't want to clear if new message appears. anyway simple.
+            }
+        }, 3000);
+    }
+
+    // update all vote counters and buttons state (disable if already voted globally)
+    function renderContestants() {
+        if (!contestantsGrid) return;
+        const hasVoted = hasUserVoted();
+        contestantsGrid.innerHTML = "";
+        contestantsData.forEach(contestant => {
+            const voteCount = currentVotes[contestant.id] !== undefined ? currentVotes[contestant.id] : 0;
+            const card = document.createElement("div");
+            card.className = "card";
+            // image
+            const img = document.createElement("img");
+            img.src = contestant.photo;
+            img.alt = contestant.name;
+            img.className = "card-img";
+            img.loading = "lazy";
+            // name
+            const nameEl = document.createElement("h3");
+            nameEl.innerText = contestant.name;
+            const descEl = document.createElement("div");
+            descEl.className = "description";
+            descEl.innerText = contestant.description;
+            const voteStatsDiv = document.createElement("div");
+            voteStatsDiv.className = "vote-stats";
+            voteStatsDiv.innerHTML = `
+                <span class="vote-count" id="vote-count-${contestant.id}">${voteCount}</span>
+                <span class="votes-label">VOTES</span>
+            `;
+            const voteBtn = document.createElement("button");
+            voteBtn.className = "vote-btn";
+            voteBtn.innerText = hasVoted ? "VOTED ✓" : "🎤 VOTE NOW 🎤";
+            if (hasVoted) {
+                voteBtn.disabled = true;
+                voteBtn.style.opacity = "0.6";
+                voteBtn.style.cursor = "not-allowed";
+            } else {
+                voteBtn.disabled = false;
+            }
+            // add event listener for voting
+            if (!hasVoted) {
+                voteBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    // double protection: check again if voted already (prevent race)
+                    if (hasUserVoted()) {
+                        setMessage("You have already voted! Only one vote per viewer.", true);
+                        renderContestants(); // re-render to disable all
+                        return;
+                    }
+                    // perform vote for this contestant
+                    // increment his votes
+                    currentVotes[contestant.id] = (currentVotes[contestant.id] || 0) + 1;
+                    persistVotes(currentVotes);
+                    markUserVoted();
+                    // update the specific vote count in UI instantly
+                    const voteSpan = document.getElementById(`vote-count-${contestant.id}`);
+                    if (voteSpan) voteSpan.innerText = currentVotes[contestant.id];
+                    // Show vote confirmation
+                    setMessage(`✅ You voted for ${contestant.name}! Thank you for supporting The Voice of SCAN!`);
+                    // Play sound effect
+                    playVoteSound();
+                    // trigger confetti animation
+                    triggerConfetti();
+                    // now disable all vote buttons across board (re-render)
+                    renderContestants(); // refresh all buttons to disabled state
+                    // also extra message highlight
+                });
+            }
+            card.appendChild(img);
+            card.appendChild(nameEl);
+            card.appendChild(descEl);
+            card.appendChild(voteStatsDiv);
+            card.appendChild(voteBtn);
+            contestantsGrid.appendChild(card);
+        });
+    }
+
+    // quick update counts only (preserving other UI but we may need live update after re-render)
+    // However we re-render fully after vote, but also we want non-vote state counts live if votes updated externally.
+    function syncVoteNumbersOnly() {
+        // update each displayed vote span without full re-render to avoid flicker, but renderContestants already full sync.
+        // better just call renderContestants? but we need to keep same vote counts initial.
+        // we don't need extra, but we do need initial render + later after vote we call renderContestants which rebuilds DOM.
+    }
+
+    // Countdown Timer (voting deadline: 3 days from now example show-style)
+    function initCountdown() {
+        const deadline = new Date();
+        deadline.setDate(deadline.getDate() + 3);
+        deadline.setHours(23, 59, 59, 999); // end of day 3 days from now
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = deadline - now;
+            if (distance < 0) {
+                document.getElementById("countdownTimer").innerHTML = "VOTING CLOSED";
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (86400000)) / (3600000));
+            const minutes = Math.floor((distance % 3600000) / 60000);
+            const seconds = Math.floor((distance % 60000) / 1000);
+            document.getElementById("countdownTimer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    }
+
+    // Smooth scroll to contestants section when click "Vote Now" CTA button
+    function setupCta() {
+        const ctaBtn = document.getElementById("voteNowCta");
+        if (ctaBtn) {
+            ctaBtn.addEventListener("click", () => {
+                const section = document.getElementById("contestantsSection");
+                if (section) {
+                    section.scrollIntoView({ behavior: "smooth", block: "start" });
+                    // also highlight message
+                    setMessage("✨ Select your favorite artist and cast your vote! ✨");
+                }
+            });
+        }
+    }
+
+    // Reset / migration: if any stored votes missing contestants (after future additions) but fine
+    // Ensure currentVotes object has keys for all contestants (avoid NaN)
+    function ensureValidVotes() {
+        let needsPersist = false;
+        contestantsData.forEach(c => {
+            if (currentVotes[c.id] === undefined || typeof currentVotes[c.id] !== "number") {
+                currentVotes[c.id] = 0;
+                needsPersist = true;
+            }
+        });
+        if (needsPersist) persistVotes(currentVotes);
+    }
+
+    // Also we need to ensure that if user voted yet we display properly
+    function initialVoteProtection() {
+        ensureValidVotes();
+        // if someone already voted but votes storage mismatch, that's fine, blocks new votes.
+        renderContestants();
+    }
+
+    // for any preexisting active vote checks and live counts
+    window.addEventListener("load", () => {
+        currentVotes = getStoredVotes();
+        ensureValidVotes();
+        renderContestants();
+        initCountdown();
+        setupCta();
+        // Additional: if we need to refresh UI when storage changes from other tabs? not needed but nice extra
+        window.addEventListener("storage", (e) => {
+            if (e.key === STORAGE_VOTES_KEY || e.key === STORAGE_VOTED_FLAG) {
+                // sync
+                currentVotes = getStoredVotes();
+                ensureValidVotes();
+                renderContestants();
+                setMessage("Voting data synced!", false);
+            }
+        });
+        // set manual initial message
+        if (hasUserVoted()) {
+            globalMsgDiv.innerHTML = "🙌 You have already voted! Thanks for being part of The Voice of SCAN.";
+        }
+    });
+</script>
+</body>
+</html>
